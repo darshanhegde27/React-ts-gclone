@@ -19,11 +19,10 @@ const noteSlice = createSlice({
       state.push(action.payload);
     },
     editnote: (state, action: PayloadAction<Inotes>) => {
-      const { id, title, content, pinned } = action.payload;
+      const { id, pinned } = action.payload;
       const noteToEdit = state.find(note => note.id === id);
       if (noteToEdit) {
-        if (title !== undefined) noteToEdit.title = title;
-        if (content !== undefined) noteToEdit.content = content;
+       
         noteToEdit.pinned = pinned;
       }
     },
