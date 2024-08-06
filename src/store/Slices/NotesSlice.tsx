@@ -1,23 +1,29 @@
-import { createSlice, configureStore, Action } from '@reduxjs/toolkit'
+import { createSlice, configureStore, Action, PayloadAction } from '@reduxjs/toolkit'
 
-interface Inotes{
+export interface Inotes{
     id:string,
     title:string|undefined,
     content:string
     pinned:boolean
 }
 const s:Inotes[]=[]
-const counterSlice = createSlice({
+const  noteSlice = createSlice({
   name: 'counter',
   initialState:s,
   reducers: {
-    incremented: (state,action:) => {
-      
+    savenote: (state,action:PayloadAction<Inotes>) => {
+      state.push(action.payload)
     },
-    decremented: state => {
-      
-    }
+    editnote: (state,action:PayloadAction<Inotes>) => {
+        const { id, content } = action.payload;
+      const noteToEdit = state.find(note => note.id === id);
+      if (noteToEdit) {
+        noteToEdit.content = content;
+      }
+      },
   }
 })
 
-export const { incremented, decremented } = counterSlice.actions
+export const { savenote,editnote} = noteSlice.actions
+const notesReducer=noteSlice.reducer
+export default notesReducer
